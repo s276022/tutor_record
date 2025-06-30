@@ -1,0 +1,20 @@
+{% extends 'records/base.html' %} {# ← これが「base.htmlを土台として使います」という宣言 #}
+
+{% block title %}ホーム{% endblock %} {# ← base.htmlのタイトル部分を「ホーム」に上書き #}
+
+{% block content %} {# ← ここからが、このページ独自の中身 #}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">記録アプリ</h1>
+        <p class="col-md-8 fs-4">ようこそ！</p>
+        <hr class="my-4">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="{% url 'record_list' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                指導記録一覧へ
+            </a>
+            <a href="{% url 'graph_current' %}" class="btn btn-primary btn-lg px-4">
+                月間グラフを見る
+            </a>
+        </div>
+    </div>
+    {% endblock %} {# ← ここまでが独自の中身 #}

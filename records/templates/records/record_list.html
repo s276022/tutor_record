@@ -1,0 +1,31 @@
+{% extends 'records/base.html' %}
+
+{% block title %}指導記録一覧{% endblock %}
+
+{% block content %}
+<h1>指導記録一覧</h1>
+<hr>
+
+{% for record in records %}
+<div class="card mb-3">
+    <div class="card-header">
+        {{ record.date }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{#{{ record.student_name }}#} ({{ record.subject }})</h5>
+        <p class="card-text"><strong>指導内容:</strong><br>{{ record.content|linebreaksbr }}</p>
+        <p class="card-text"><strong>宿題:</strong><br>{{ record.homework|linebreaksbr }}</p>
+    </div>
+    <div class="card-footer text-muted">
+        指導時間: {{ record.duration }}分
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info">
+    まだ指導記録がありません。
+</div>
+{% endfor %}
+<div class="text-center mt-5">
+    <a href="{% url 'home' %}" class="btn btn-secondary">ホームページに戻る</a>
+</div>
+{% endblock %}

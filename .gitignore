@@ -9,3 +9,5 @@ venv/
 
 # VSCode
 .vscode/
+#データベース本体らしい
+db.sqlite3

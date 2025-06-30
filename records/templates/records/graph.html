@@ -1,0 +1,59 @@
+{% extends 'records/base.html' %}
+
+{% block title %}{{ year }}年{{ month }}月 勉強時間グラフ{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{% url 'graph_detail' year=prev_year month=prev_month %}" class="btn btn-outline-primary">
+        &laquo; {{ prev_month }}月へ
+    </a>
+    <h1>{{ year }}年{{ month }}月 勉強時間グラフ</h1>
+    <a href="{% url 'graph_detail' year=next_year month=next_month %}" class="btn btn-outline-primary">
+        {{ next_month }}月へ &raquo;
+    </a>
+</div>
+<h2>総勉強時間: {{ total_hours }}時間 {{ remaining_minutes }}分</h2>
+
+<div style="width: 100%; max-width: 900px; margin: auto;">
+    <canvas id="myBarChart"></canvas>
+</div>
+
+{{ labels|json_script:"chart-labels" }}
+{{ data|json_script:"chart-data" }}
+
+<script>
+    // 埋め込まれたJSONデータを取得
+    const labels = JSON.parse(document.getElementById('chart-labels').textContent);
+    const data = JSON.parse(document.getElementById('chart-data').textContent);
+
+    const ctx = document.getElementById('myBarChart').getContext('2d');
+    const myBarChart = new Chart(ctx, {
+        type: 'bar', // グラフの種類（棒グラフ）
+        data: {
+            labels: labels, // X軸のラベル (1日, 2日...)
+            datasets: [{
+                label: '勉強時間 (分)',
+                data: data, // Y軸のデータ (各日の合計時間)
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '時間 (分)'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<div class="text-center mt-5">
+    <a href="{% url 'home' %}" class="btn btn-secondary">ホームページに戻る</a>
+</div>
+{% endblock %}
